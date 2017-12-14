@@ -5,7 +5,7 @@ export default function generateFontFaces(fontDictionary) {
     if (font) {
       faces.push(
         `@font-face {font-family: "${fontName}"; src: ${asFontFaceSrc(
-          font.url
+          font.urls
         )};}`
       );
     }
@@ -13,8 +13,9 @@ export default function generateFontFaces(fontDictionary) {
   return '\n' + faces.join('\n');
 }
 
-function asFontFaceSrc(url) {
-  return Object.keys(url).map(
-    type => `url("/_static/${url[type]}") format("${type}")\n`
+function asFontFaceSrc(urls) {
+  // `urls` is a dictionary of font types (woff, woff2 etc) to url string
+  return Object.keys(urls).map(
+    type => `url("/_static/${urls[type]}") format("${type}")\n`
   );
 }

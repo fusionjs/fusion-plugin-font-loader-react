@@ -5,7 +5,7 @@ export default function generatePreloadLinks(fontNames, fontDictionary) {
     if (font) {
       links.push(
         `\n<link rel="font" href="/_static/${
-          font.url.woff2
+          font.urls.woff2
         }" as="font" type="font/woff2" crossorigin>`
       );
     }

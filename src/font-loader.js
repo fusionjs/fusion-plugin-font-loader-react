@@ -7,13 +7,14 @@
 /* global document */
 
 const testFonts = ['sans-serif', 'serif', 'monospace'];
-const testText = 'π+[.—_]imW12/?'; // FIXME: allow override
+// TODO(#3): allow override
+const testText = 'π+[.—_]imW12/?';
 // how long to wait for load before switching style to true font anyway
 const timeout = 60000;
 
 export default function(font) {
   if (__BROWSER__) {
-    return !document.fonts
+    return document.fonts
       ? document.fonts.load(`1em ${font}`) // native API requires size
       : loadFontPolyfill(font);
   }
