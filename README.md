@@ -1,4 +1,4 @@
-# fusion-plugin-font-loader
+# fusion-plugin-font-loader-react
 
 Provides :
 1. A fusion plugin that generates @font-faces and preloads fallback fonts based on app-level font configuration.

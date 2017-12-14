@@ -1,6 +1,6 @@
 FROM node:8.9.0
 
-WORKDIR /fusion-plugin-font-loader
+WORKDIR /fusion-plugin-font-loader-react
 
 # Install electron dependencies.
 ENV DISPLAY :99
