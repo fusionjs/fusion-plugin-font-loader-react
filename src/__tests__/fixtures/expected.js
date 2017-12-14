@@ -1,30 +1,30 @@
 export const fallbackLookup = {
   depth0: {},
   depth1: {
-    'ClanPro-News': {
-      name: 'ClanPro-Book',
+    'Lato-Bold': {
+      name: 'Lato-Regular',
       styles: {'font-weight': 'bold'},
     },
-    'ClanPro-Thin': {
-      name: 'ClanPro-Book',
+    'Lato-Thin': {
+      name: 'Lato-Regular',
       styles: {'font-weight': '100'},
     },
   },
   depth2: {
-    'ClanPro-Book': {
+    'Lato-Regular': {
       name: 'Helvetica',
     },
-    'ClanPro-News': {
+    'Lato-Bold': {
       name: 'Helvetica',
     },
-    'ClanPro-Thin': {
+    'Lato-Thin': {
       name: 'Helvetica',
     },
   },
 };
 
 export const fontFaces =
-  '\n@font-face {font-family: "ClanPro-Book"; src: url("/_static/Clan-Book.woff") format("woff")\n,url("/_static/Clan-Book.woff2") format("woff2")\n;}\n@font-face {font-family: "ClanPro-News"; src: url("/_static/Clan-News.woff") format("woff")\n,url("/_static/Clan-News.woff2") format("woff2")\n;}\n@font-face {font-family: "ClanPro-Thin"; src: url("/_static/Clan-Thin.woff") format("woff")\n,url("/_static/Clan-Thin.woff2") format("woff2")\n;}';
+  '\n@font-face {font-family: "Lato-Regular"; src: url("/_static/Lato-Regular.woff") format("woff")\n,url("/_static/Lato-Regular.woff2") format("woff2")\n;}\n@font-face {font-family: "Lato-Bold"; src: url("/_static/Lato-Bold.woff") format("woff")\n,url("/_static/Lato-Bold.woff2") format("woff2")\n;}\n@font-face {font-family: "Lato-Thin"; src: url("/_static/Lato-Thin.woff") format("woff")\n,url("/_static/Lato-Thin.woff2") format("woff2")\n;}';
 
 export const preloadLinks =
-  '\n<link rel="font" href="/_static/Clan-Book.woff2" as="font" type="font/woff2" crossorigin>';
+  '\n<link rel="font" href="/_static/Lato-Regular.woff2" as="font" type="font/woff2" crossorigin>';

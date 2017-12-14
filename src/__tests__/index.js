@@ -38,7 +38,7 @@ tape('generatePreloadLinks', t => {
     'exports a generatePreloadLinks function'
   );
   t.equal(
-    generatePreloadLinks({'ClanPro-Book': true}, fonts),
+    generatePreloadLinks({'Lato-Regular': true}, fonts),
     expectedPreloadLinks
   );
   t.end();

@@ -12,7 +12,7 @@ withFontLoading(fontName)(wrappedComponent)
 
 fontProps is hash of font property names to required font names
 e.g. (with styletron)
-withFontLoading('ClanPro-News')(styled('div', props => props.fontStyles));
+withFontLoading('Lato-Bold')(styled('div', props => props.fontStyles));
 
 All requested fonts should be defined in src/fonts/fontConfig.js
 */

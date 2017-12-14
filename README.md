@@ -20,31 +20,31 @@ _Sample \<app\>/src/font-config.js file_
 import {assetUrl} from 'fusion-core';
 export const preloadDepth = 1;
 export const fonts = {
-  'ClanPro-Book': {
+  'Lato-Regular': {
     urls: {
-      woff2: assetUrl('../static/Clan-Book.woff2'),
+      woff2: assetUrl('../static/Lato-Regular.woff2'),
     },
     fallback: {
       name: 'Helvetica',
     },
   },
-  'ClanPro-News': {
+  'Lato-Bold': {
     urls: {
-      woff2: assetUrl('../static/Clan-News.woff2'),
+      woff2: assetUrl('../static/Lato-Bold.woff2'),
     },
     fallback: {
-      name: 'ClanPro-Book',
+      name: 'Lato-Regular',
       styles: {
         'font-weight': 'bold',
       },
     },
   },
-  'ClanPro-Thin': {
+  'Lato-Thin': {
     urls: {
-      woff2: assetUrl('./static/Clan-Thin.woff2'),
+      woff2: assetUrl('./static/Lato-Thin.woff2'),
     },
     fallback: {
-      name: 'ClanPro-Book',
+      name: 'Lato-Regular',
       styles: {
         'font-weight': '100',
       },
@@ -58,9 +58,9 @@ export const fonts = {
 Based on the example configuration file above the following @font-face would be generated in <head>
 
 ```css
-@font-face {font-family: "ClanPro-Book"; src: url("/_static/ca614426b50ca7d007056aa00954764b.woff2") format("woff2");}
-@font-face {font-family: "ClanPro-News"; src: url("/_static/ca104da8af9a2e0771e8fe2b31f8ec1e.woff2") format("woff2");}
-@font-face {font-family: "ClanPro-Thin"; src: url("/_static/03b64805a8cd2d53fadc5814445c2fb5.woff2") format("woff2");}
+@font-face {font-family: "Lato-Regular"; src: url("/_static/ca614426b50ca7d007056aa00954764b.woff2") format("woff2");}
+@font-face {font-family: "Lato-Bold"; src: url("/_static/ca104da8af9a2e0771e8fe2b31f8ec1e.woff2") format("woff2");}
+@font-face {font-family: "Lato-Thin"; src: url("/_static/03b64805a8cd2d53fadc5814445c2fb5.woff2") format("woff2");}
 ```
 
 #### font loading
@@ -74,7 +74,7 @@ Based on the sample config above (`preloadDepth` is set to 1), the HOC example a
 while loading font:
 ```js
 {
-  fontFamily: 'ClanPro-Book'
+  fontFamily: 'Lato-Regular'
   fontWeight: 'bold'
 }
 ```
@@ -82,7 +82,7 @@ while loading font:
 when font is loaded:
 ```js
 {
-  fontFamily: 'ClanPro-News'
+  fontFamily: 'Lato-Bold'
 }
 ```
 
@@ -98,7 +98,7 @@ This repo also supplies a `with-font-loading.js` Higher Order Component which is
 3. When the font is loaded assign the true font to child component via `props.fontStyles`
 
 ```js
-const FancyLink1 = withFontLoading('ClanPro-News'.(
+const FancyLink1 = withFontLoading('Lato-Bold'.(
   styled('a', props => ({
     ':hover': {fontSize: `${props.answer}px`}.
     ...props.fontStyles,
@@ -106,7 +106,7 @@ const FancyLink1 = withFontLoading('ClanPro-News'.(
 );
 ```
 
-This will lazy-load `ClanPro-News` and meanwhile assign a fallback font and styling to the element via `props.fontStyles`.
+This will lazy-load `Lato-Bold` and meanwhile assign a fallback font and styling to the element via `props.fontStyles`.
 
 ## Utils
 

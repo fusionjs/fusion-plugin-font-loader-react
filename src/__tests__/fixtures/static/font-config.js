@@ -1,33 +1,33 @@
 export const preloadDepth = 1;
 export const fonts = {
-  'ClanPro-Book': {
+  'Lato-Regular': {
     urls: {
-      woff: 'Clan-Book.woff',
-      woff2: 'Clan-Book.woff2',
+      woff: 'Lato-Regular.woff',
+      woff2: 'Lato-Regular.woff2',
     },
     fallback: {
       name: 'Helvetica',
     },
   },
-  'ClanPro-News': {
+  'Lato-Bold': {
     urls: {
-      woff: 'Clan-News.woff',
-      woff2: 'Clan-News.woff2',
+      woff: 'Lato-Bold.woff',
+      woff2: 'Lato-Bold.woff2',
     },
     fallback: {
-      name: 'ClanPro-Book',
+      name: 'Lato-Regular',
       styles: {
         'font-weight': 'bold',
       },
     },
   },
-  'ClanPro-Thin': {
+  'Lato-Thin': {
     urls: {
-      woff: 'Clan-Thin.woff',
-      woff2: 'Clan-Thin.woff2',
+      woff: 'Lato-Thin.woff',
+      woff2: 'Lato-Thin.woff2',
     },
     fallback: {
-      name: 'ClanPro-Book',
+      name: 'Lato-Regular',
       styles: {
         'font-weight': '100',
       },
