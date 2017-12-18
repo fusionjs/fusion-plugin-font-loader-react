@@ -1,3 +1,5 @@
 // @flow
-export {withFontLoading} from './with-font-loading';
-export {FontPlugin} from './plugin';
+import withFontLoading from './with-font-loading';
+import FontPlugin from './plugin';
+
+export {withFontLoading, FontPlugin};
