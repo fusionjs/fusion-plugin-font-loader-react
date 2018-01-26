@@ -27,7 +27,7 @@
   "devDependencies": {
     "@babel/preset-react": "^7.0.0-beta.32",
     "babel-eslint": "^8.0.2",
-    "create-universal-package": "^2.1.1",
+    "create-universal-package": "^3.0.0",
     "enzyme": "^3.1.1",
     "enzyme-adapter-react-16": "^1.0.4",
     "eslint": "^4.11.0",
