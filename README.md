@@ -146,6 +146,8 @@ const FancyLink1 = withFontLoading('Lato-Bold'.(
 
 This will lazy-load `Lato-Bold` and meanwhile assign a fallback font and styling to the element via `props.fontStyles`.
 
+---
+
 ### Utils
 
 #### font-loader.js
