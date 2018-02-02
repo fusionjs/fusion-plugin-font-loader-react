@@ -36,7 +36,7 @@
     "eslint-plugin-react": "^7.6.0",
     "flow-bin": "^0.64.0",
     "fusion-core": "^0.3.0-5",
-    "fusion-tokens": "0.0.5",
+    "fusion-tokens": "0.0.6",
     "fusion-test-utils": "^0.4.1",
     "nyc": "^11.4.1",
     "prettier": "1.10.2",
@@ -47,7 +47,7 @@
   },
   "peerDependencies": {
     "fusion-core": "^0.3.0-5",
-    "fusion-tokens": "0.0.5",
+    "fusion-tokens": "0.0.6",
     "prop-types": "^15.6.0",
     "react": "14.x - 16.x"
   },
