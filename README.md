@@ -37,9 +37,9 @@ export default () => {
 // src/some-component.js
 import {withFontLoading} from 'fusion-plugin-font-loader-react';
 
-const FancyLink1 = withFontLoading('Lato-Bold'.(
+const FancyLink1 = withFontLoading('Lato-Bold')(
   styled('a', props => ({
-    ':hover': {fontSize: `${props.answer}px`}.
+    ':hover': {fontSize: `${props.answer}px`},
     ...props.$fontStyles,
   }))
 );
