@@ -8,7 +8,7 @@ For example, if you're using the `Lato` font family, you can defer loading of `L
 
 You can tune the balance between performance and user experience with simple configurations. This plugin generates inline @font-face CSS declarations and preloads fallback fonts based on a `preloadDepth` configuration vlue, which lets you specify how many fonts to preload and how many to load asynchronously.
 
-This package Provides:
+This package provides:
 1. A fusion plugin that generates @font-faces and preloads fallback fonts based on app-level font configuration.
 2. A Higher Order Component for loading custom web fonts (and associated utils). During font loading, this HOC temporarily swaps the element to a well-matched fallback font, avoiding FOIT and FOUT. See https://www.zachleat.com/web/comprehensive-webfonts/#critical-foft-preload for more on this.
 
@@ -124,7 +124,7 @@ On the other hand, if there's a major concern about overall performance of a web
 
 ```js
 // src/main.js
-import App rom 'fusion-core';
+import App from 'fusion-core';
 import FontLoaderReactPlugin, {
   FontLoaderReactConfigToken
 } from 'fusion-plugin-font-loader-react';
