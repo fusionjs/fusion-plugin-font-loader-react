@@ -22,7 +22,7 @@ const timeout = 60000;
 
 export default function(font: string) {
   // $FlowFixMe
-  if (__BROWSER__ && document && document.fonts) {
+  if (__BROWSER__ && document) {
     return document.fonts && typeof document.fonts.load === 'function'
       ? document.fonts.load(`1em ${font}`) // native API requires size
       : loadFontPolyfill(font);
