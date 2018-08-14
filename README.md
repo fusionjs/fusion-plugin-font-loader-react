@@ -114,8 +114,8 @@ while loading font:
 
 ```js
 {
-  fontFamily: 'Lato-Regular';
-  fontWeight: 'bold';
+  fontFamily: 'Lato-Regular',
+  fontWeight: 'bold',
 }
 ```
 
@@ -123,7 +123,7 @@ when font is loaded:
 
 ```js
 {
-  fontFamily: 'Lato-Bold';
+  fontFamily: 'Lato-Bold',
 }
 ```
 
