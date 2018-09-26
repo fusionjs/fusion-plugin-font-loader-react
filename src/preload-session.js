@@ -6,7 +6,7 @@
  * @flow
  */
 
-class PreloadEngine {
+class PreloadSession {
   constructor(fallbackLookup: FallbackLookup) {
     // keys are the actual fonts to preload (based on usage on the page), values are always true
     this.fontsToPreload = {};
@@ -28,4 +28,4 @@ class PreloadEngine {
   };
 }
 
-export default PreloadEngine;
+export default PreloadSession;

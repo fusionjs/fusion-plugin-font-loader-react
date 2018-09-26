@@ -13,7 +13,7 @@ import React from 'react';
 import {createPlugin, html, dangerouslySetHTML} from 'fusion-core';
 
 import FontProvider from './provider';
-import PreloadEngine from './preload-engine';
+import PreloadSession from './preload-session';
 import generateFallbackMap from './generate-fallback-map';
 import generatePreloadLinks from './generate-preload-links';
 import generateFontFaces from './generate-font-faces';
@@ -27,12 +27,12 @@ const plugin = createPlugin({
   middleware: ({config}) => {
     const {fonts, preloadDepth} = config;
     const fallbackLookup = generateFallbackMap(fonts, preloadDepth);
-    const preloadEngine = new PreloadEngine(fallbackLookup);
+    const preloadSession = new PreloadSession(fallbackLookup);
 
     return (ctx, next) => {
       if (ctx.element) {
         ctx.element = (
-          <FontProvider getFontDetails={preloadEngine.getFontDetails}>
+          <FontProvider getFontDetails={preloadSession.getFontDetails}>
             {ctx.element}
           </FontProvider>
         );
@@ -45,7 +45,7 @@ const plugin = createPlugin({
             ctx.template.head.push(html`</style>`);
             ctx.template.head.push(
               dangerouslySetHTML(
-                generatePreloadLinks(preloadEngine.fontsToPreload, fonts)
+                generatePreloadLinks(preloadSession.fontsToPreload, fonts)
               )
             );
           }
