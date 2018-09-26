@@ -6,14 +6,24 @@
  * @flow
  */
 
+type FallbackLookup = {
+  [string]: {
+    name: string,
+    styles: mixed,
+  },
+};
+
 class PreloadSession {
+  fontsToPreload: {[string]: boolean};
+  fallbackLookup: FallbackLookup;
+
   constructor(fallbackLookup: FallbackLookup) {
     // keys are the actual fonts to preload (based on usage on the page), values are always true
     this.fontsToPreload = {};
     this.fallbackLookup = fallbackLookup;
   }
 
-  getFontDetails = name => {
+  getFontDetails = (name: string) => {
     const {name: fallbackName, styles = {}} = this.fallbackLookup[name] || {};
     const result = {
       name,
