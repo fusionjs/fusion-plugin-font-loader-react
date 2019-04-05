@@ -48,17 +48,23 @@ const withFontLoading = (fontName: string) => {
       }
 
       componentDidMount() {
+        this.mounted = true;
         if (this.state.$fontStyles.fontFamily !== fontName) {
           // $FlowFixMe
           loadFont(`${fontName}`).then(() => {
             // $FlowFixMe
-            this.setState({$fontStyles: {fontFamily: fontName}});
+            this.mounted &&
+              this.setState({$fontStyles: {fontFamily: fontName}});
           });
         }
       }
 
       render() {
         return <OriginalComponent {...{...this.state, ...this.props}} />;
+      }
+
+      componentWillUnmount() {
+        this.mounted = false;
       }
     }
 
