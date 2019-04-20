@@ -170,6 +170,64 @@ const FancyLink1 = withFontLoading('Lato-Bold')(
 );
 ```
 
+### Generating @font-faces with style overloading
+
+Sometimes it's useful to be able to apply different `font-weight`s or `font-style`s without changing the `font-family` value. For example it's inconvenient to have to switch `font-family` just to increase the font-weight when an element is hovered over. Most likely we just want to do this:
+
+```js
+const Li = styled('li', {
+  fontFamily: 'Lato',
+  fontWeight: 200,
+  ':hover': {fontWeight: 700},
+  marginRight: '12px',
+});
+```
+
+But that would require refactoring the @font-face declaration to provide duplicate `Lato` font-families but with different `font-weight` properties.
+
+**Old**
+
+```css
+@font-face {
+  font-family: 'Lato-Regular';
+  src: url('/_static/ca614426b50ca7d007056aa00954764b.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Lato-Bold';
+  src: url('/_static/ca104da8af9a2e0771e8fe2b31f8ec1e.woff2') format('woff2');
+}
+```
+
+**New**
+
+```css
+@font-face {
+  font-family: 'Lato';
+  src: url('/_static/ca614426b50ca7d007056aa00954764b.woff2') format('woff2');
+  font-weight: 200;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url('/_static/ca104da8af9a2e0771e8fe2b31f8ec1e.woff2') format('woff2');
+  font-weight: 700;
+}
+```
+
+Setting `config.useOverloading` property to `true` will allow this type of dynamic font style assignment.
+
+```js
+  app.register(FontLoaderPlugin);
+  app.register(FontLoaderReactConfigToken, {
+    fonts,
+    preloadDepth: 1,
+    useOverloading: true
+  });
+```
+
+:exclamation: Be aware that because we are no longer using a unique font name for each styled font, font loading optimziations will no longer apply.
+
+
+
 ---
 
 ### API

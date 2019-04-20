@@ -25,29 +25,33 @@ const plugin = createPlugin({
     config: ConfigToken,
   },
   middleware: ({config}) => {
-    const {fonts, preloadDepth} = config;
+    const {fonts, preloadDepth, baseWebCompat} = config;
     const fallbackLookup = generateFallbackMap(fonts, preloadDepth);
     const preloadSession = new PreloadSession(fallbackLookup);
 
     return (ctx, next) => {
       if (ctx.element) {
-        ctx.element = (
-          <FontProvider getFontDetails={preloadSession.getFontDetails}>
-            {ctx.element}
-          </FontProvider>
-        );
+        if (!baseWebCompat) {
+          ctx.element = (
+            <FontProvider getFontDetails={preloadSession.getFontDetails}>
+              {ctx.element}
+            </FontProvider>
+          );
+        }
         return next().then(() => {
           if (__NODE__) {
             ctx.template.head.push(html`<style>`);
             ctx.template.head.push(
-              dangerouslySetHTML(generateFontFaces(fonts))
+              dangerouslySetHTML(generateFontFaces(fonts, {baseWebCompat}))
             );
             ctx.template.head.push(html`</style>`);
-            ctx.template.head.push(
-              dangerouslySetHTML(
-                generatePreloadLinks(preloadSession.fontsToPreload, fonts)
-              )
-            );
+            if (!baseWebCompat) {
+              ctx.template.head.push(
+                dangerouslySetHTML(
+                  generatePreloadLinks(preloadSession.fontsToPreload, fonts)
+                )
+              );
+            }
           }
         });
       } else {

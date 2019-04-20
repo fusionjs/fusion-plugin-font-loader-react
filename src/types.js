@@ -27,6 +27,7 @@ export type ConfigType = {
     [string]: FontType,
   },
   preloadDepth: number,
+  baseWebCompat: boolean,
 };
 export type ConfigTokenType = Token<ConfigType>;
 

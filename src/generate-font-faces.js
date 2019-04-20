@@ -6,7 +6,7 @@
  * @flow
  */
 
-export default function generateFontFaces(fontDictionary: {}) {
+export default function generateFontFaces(fontDictionary: {}, config: {}) {
   const faces = [];
   Object.keys(fontDictionary).forEach(fontName => {
     const font = fontDictionary[fontName];
