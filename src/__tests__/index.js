@@ -37,7 +37,7 @@ tape('generateFontFaces', t => {
     'function',
     'exports a generateFontFaces function'
   );
-  t.equal(generateFontFaces(mockFonts), expectedFontFaces);
+  t.equal(generateFontFaces(mockFonts, {}), expectedFontFaces);
   t.end();
 });
 

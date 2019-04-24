@@ -8,13 +8,26 @@
 
 export default function generateFontFaces(fontDictionary: {}, config: {}) {
   const faces = [];
+  if (config.withStyleOverloads) {
+    Object.keys(fontDictionary).forEach(fontName => {
+      fontDictionary[fontName].forEach(fontInstance => {
+        faces.push(
+          `@font-face {font-family: "${fontName}"; font-display: fallback; src: ${String(
+            asFontFaceSrc(fontInstance.urls)
+          )};}`
+        );
+      });
+    });
+  }
   Object.keys(fontDictionary).forEach(fontName => {
     const font = fontDictionary[fontName];
     if (font) {
       faces.push(
-        `@font-face {font-family: "${fontName}"; font-display: fallback; src: ${String(
-          asFontFaceSrc(font.urls)
-        )};}`
+        `@font-face {
+          font-family: "${fontName}";
+          font-display: fallback;
+          src: ${String(asFontFaceSrc(font.urls))};
+          ${String(asFontFaceStyles(font.styles))}`
       );
     }
   });
@@ -26,4 +39,8 @@ function asFontFaceSrc(urls) {
   return Object.keys(urls).map(
     type => `url("${urls[type]}") format("${type}")\n`
   );
+}
+
+function asFontFaceStyles(styles) {
+  return Object.keys(styles).map(key => `${key}: styles[key];\n`);
 }
