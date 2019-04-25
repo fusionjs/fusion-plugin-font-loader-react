@@ -9,6 +9,8 @@
 import withFontLoading from './with-font-loading';
 import FontLoaderReactPlugin from './plugin';
 import {FontLoaderReactToken, FontLoaderReactConfigToken} from './tokens';
+import type {AtomicFontsObjectType, StyledFontsObjectType} from './types';
 
 export default FontLoaderReactPlugin;
 export {withFontLoading, FontLoaderReactToken, FontLoaderReactConfigToken};
+export type {AtomicFontsObjectType, StyledFontsObjectType};

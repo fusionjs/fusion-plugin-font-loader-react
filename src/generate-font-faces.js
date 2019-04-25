@@ -1,4 +1,4 @@
-/** Copyright (c) 2018 Uber Technologies, Inc.
+/** Copyright (c) 2019 Uber Technologies, Inc.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -6,30 +6,35 @@
  * @flow
  */
 
-export default function generateFontFaces(fontDictionary: {}, config: {}) {
+import type {AtomicFontsObjectType, StyledFontsObjectType} from './types';
+
+export function generateAtomicFontFaces(fonts: AtomicFontsObjectType) {
   const faces = [];
-  if (config.withStyleOverloads) {
-    Object.keys(fontDictionary).forEach(fontName => {
-      fontDictionary[fontName].forEach(fontInstance => {
-        faces.push(
-          `@font-face {font-family: "${fontName}"; font-display: fallback; src: ${String(
-            asFontFaceSrc(fontInstance.urls)
-          )};}`
-        );
-      });
-    });
-  }
-  Object.keys(fontDictionary).forEach(fontName => {
-    const font = fontDictionary[fontName];
+  Object.keys(fonts).forEach(fontName => {
+    const font = fonts[fontName];
     if (font) {
       faces.push(
         `@font-face {
           font-family: "${fontName}";
           font-display: fallback;
           src: ${String(asFontFaceSrc(font.urls))};
-          ${String(asFontFaceStyles(font.styles))}`
+          ${String(asFontFaceStyles(font.styles || {}))}`
       );
     }
+  });
+  return '\n' + faces.join('\n');
+}
+
+export function generateStyledFontFaces(fonts: StyledFontsObjectType) {
+  const faces = [];
+  Object.keys(fonts).forEach(fontName => {
+    fonts[fontName].forEach(fontInstance => {
+      faces.push(
+        `@font-face {font-family: "${fontName}"; font-display: fallback; src: ${String(
+          asFontFaceSrc(fontInstance.urls)
+        )};}`
+      );
+    });
   });
   return '\n' + faces.join('\n');
 }

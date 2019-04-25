@@ -16,9 +16,16 @@ import FontProvider from './provider';
 import PreloadSession from './preload-session';
 import generateFallbackMap from './generate-fallback-map';
 import generatePreloadLinks from './generate-preload-links';
-import generateFontFaces from './generate-font-faces';
+import {
+  generateAtomicFontFaces,
+  generateStyledFontFaces,
+} from './generate-font-faces';
 import {FontLoaderReactConfigToken as ConfigToken} from './tokens';
-import type {PluginType} from './types.js';
+import type {
+  PluginType,
+  AtomicFontsObjectType,
+  StyledFontsObjectType,
+} from './types.js';
 
 const plugin = createPlugin({
   deps: {
@@ -26,7 +33,7 @@ const plugin = createPlugin({
   },
   middleware: ({config}) => {
     const {fonts, preloadDepth, withStyleOverloads} = config;
-    const fallbackLookup = generateFallbackMap(fonts, preloadDepth);
+    const fallbackLookup = generateFallbackMap(fonts, preloadDepth || 0);
     const preloadSession = new PreloadSession(fallbackLookup);
 
     return (ctx, next) => {
@@ -41,9 +48,17 @@ const plugin = createPlugin({
         return next().then(() => {
           if (__NODE__) {
             ctx.template.head.push(html`<style>`);
-            ctx.template.head.push(
-              dangerouslySetHTML(generateFontFaces(fonts, {withStyleOverloads}))
-            );
+            if (withStyleOverloads) {
+              const styledFonts: StyledFontsObjectType = (fonts: any);
+              ctx.template.head.push(
+                dangerouslySetHTML(generateStyledFontFaces(styledFonts))
+              );
+            } else {
+              const atomicFonts: AtomicFontsObjectType = (fonts: any);
+              ctx.template.head.push(
+                dangerouslySetHTML(generateAtomicFontFaces(atomicFonts))
+              );
+            }
             ctx.template.head.push(html`</style>`);
             if (!withStyleOverloads) {
               ctx.template.head.push(

@@ -6,10 +6,10 @@
  * @flow
  */
 
-import type {FontType} from '../../../types.js';
+import type {AtomicFontType} from '../../../types.js';
 
 export const preloadDepth: number = 1;
-export const fonts: {[string]: FontType} = {
+export const fonts: {[string]: AtomicFontType} = {
   'Lato-Regular': {
     urls: {
       woff: 'Lato-Regular.woff',
