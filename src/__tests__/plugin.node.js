@@ -11,10 +11,7 @@ import tape from 'tape-cup';
 import App from 'fusion-core';
 import {getSimulator} from 'fusion-test-utils';
 
-import {
-  fonts as mockFonts,
-  preloadDepth as mockPreloadDepth,
-} from './fixtures/static/font-config';
+import {getFontConfig} from './fixtures/static/font-config';
 
 import FontLoaderReactPlugin from '../index';
 import {FontLoaderReactToken, FontLoaderReactConfigToken} from '../tokens';
@@ -26,10 +23,7 @@ tape('exported as expected', t => {
 });
 
 tape('plugin - middleware modifies head as expected', t => {
-  const mockConfig = {
-    fonts: mockFonts,
-    preloadDepth: mockPreloadDepth,
-  };
+  const mockConfig = getFontConfig(false);
 
   const app = new App('content', el => el);
   app.middleware(async (ctx, next) => {

@@ -18,7 +18,8 @@ export function generateAtomicFontFaces(fonts: AtomicFontsObjectType) {
           font-family: "${fontName}";
           font-display: fallback;
           src: ${String(asFontFaceSrc(font.urls))};
-          ${String(asFontFaceStyles(font.styles || {}))}`
+          ${String(asFontFaceStyles(font.styles || {}))}
+        }`
       );
     }
   });
@@ -30,9 +31,11 @@ export function generateStyledFontFaces(fonts: StyledFontsObjectType) {
   Object.keys(fonts).forEach(fontName => {
     fonts[fontName].forEach(fontInstance => {
       faces.push(
-        `@font-face {font-family: "${fontName}"; font-display: fallback; src: ${String(
-          asFontFaceSrc(fontInstance.urls)
-        )};}`
+        `@font-face {
+font-family: "${fontName}";
+font-display: fallback;
+src: ${asFontFaceSrc(fontInstance.urls).join(',\n')};
+${String(asFontFaceStyles(fontInstance.styles))}}`
       );
     });
   });
@@ -42,10 +45,12 @@ export function generateStyledFontFaces(fonts: StyledFontsObjectType) {
 function asFontFaceSrc(urls) {
   // `urls` is a dictionary of font types (woff, woff2 etc) to url string
   return Object.keys(urls).map(
-    type => `url("${urls[type]}") format("${type}")\n`
+    type => `url("${urls[type]}") format("${type}")`
   );
 }
 
 function asFontFaceStyles(styles) {
-  return Object.keys(styles).map(key => `${key}: styles[key];\n`);
+  return styles
+    ? Object.keys(styles).map(key => `${key}: ${styles[key]};\n`)
+    : '';
 }

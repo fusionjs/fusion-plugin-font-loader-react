@@ -8,7 +8,7 @@
 
 import tape from 'tape-cup';
 
-import {fonts as mockFonts} from './fixtures/static/font-config';
+import {getFontConfig} from './fixtures/static/font-config';
 import {
   fallbackLookup as expectedFallbackLookup,
   fontFaces as expectedFontFaces,
@@ -16,40 +16,64 @@ import {
 } from './fixtures/expected';
 
 import generateFallbackMap from '../generate-fallback-map';
-import generateFontFaces from '../generate-font-faces';
+import {
+  generateAtomicFontFaces,
+  generateStyledFontFaces,
+} from '../generate-font-faces';
+import type {AtomicFontsObjectType, StyledFontsObjectType} from '../types';
 import generatePreloadLinks from '../generate-preload-links';
 
 tape('generateFallbackMap', t => {
+  const atomicFonts: AtomicFontsObjectType = (getFontConfig(false).fonts: any);
   t.equal(
     typeof generateFallbackMap,
     'function',
     'exports a generateFallbackMap function'
   );
-  t.deepEqual(generateFallbackMap(mockFonts, 0), expectedFallbackLookup.depth0);
-  t.deepEqual(generateFallbackMap(mockFonts, 1), expectedFallbackLookup.depth1);
-  t.deepEqual(generateFallbackMap(mockFonts, 2), expectedFallbackLookup.depth2);
+  t.deepEqual(
+    generateFallbackMap(atomicFonts, 0),
+    expectedFallbackLookup.depth0
+  );
+  t.deepEqual(
+    generateFallbackMap(atomicFonts, 1),
+    expectedFallbackLookup.depth1
+  );
+  t.deepEqual(
+    generateFallbackMap(atomicFonts, 2),
+    expectedFallbackLookup.depth2
+  );
   t.end();
 });
 
-tape('generateFontFaces', t => {
+tape('generateAtomicFontFaces', t => {
+  const atomicFonts: AtomicFontsObjectType = (getFontConfig(false).fonts: any);
   t.equal(
-    typeof generateFontFaces,
+    typeof generateAtomicFontFaces,
     'function',
     'exports a generateFontFaces function'
   );
-  t.equal(generateFontFaces(mockFonts, {}), expectedFontFaces);
+  equalWithoutSpaces(
+    t,
+    generateAtomicFontFaces(atomicFonts),
+    expectedFontFaces
+  );
   t.end();
 });
 
 tape('generatePreloadLinks', t => {
+  const atomicFonts: AtomicFontsObjectType = (getFontConfig(false).fonts: any);
   t.equal(
     typeof generatePreloadLinks,
     'function',
     'exports a generatePreloadLinks function'
   );
   t.equal(
-    generatePreloadLinks({'Lato-Regular': true}, mockFonts),
+    generatePreloadLinks({'Lato-Regular': true}, atomicFonts),
     expectedPreloadLinks
   );
   t.end();
 });
+
+function equalWithoutSpaces(t, str1, str2) {
+  t.equal(str1.replace(/\s/g, ''), str2.replace(/\s/g, ''));
+}
