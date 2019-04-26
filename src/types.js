@@ -40,6 +40,12 @@ export type ConfigType = {
   withStyleOverloads?: boolean,
 };
 
+export type AtomicConfigType = {
+  fonts: AtomicFontsObjectType,
+  preloadDepth: number,
+  withStyleOverloads?: boolean,
+};
+
 export type ConfigTokenType = Token<ConfigType>;
 
 type DepsType = {

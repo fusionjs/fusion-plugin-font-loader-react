@@ -8,7 +8,8 @@
 
 import tape from 'tape-cup';
 
-import App from 'fusion-core';
+import App, {consumeSanitizedHTML} from 'fusion-core';
+
 import {getSimulator} from 'fusion-test-utils';
 
 import {getFontConfig} from './fixtures/static/font-config';
@@ -16,30 +17,64 @@ import {getFontConfig} from './fixtures/static/font-config';
 import FontLoaderReactPlugin from '../index';
 import {FontLoaderReactToken, FontLoaderReactConfigToken} from '../tokens';
 
+import {
+  atomicFontFaces as expectedAtomicFontFaces,
+  styledFontFaces as expectedStyledFontFaces,
+} from './fixtures/expected';
+
 tape('exported as expected', t => {
   t.ok(FontLoaderReactPlugin, 'plugin defined as expected');
   t.equal(typeof FontLoaderReactPlugin, 'object', 'plugin is an object');
   t.end();
 });
 
-tape('plugin - middleware modifies head as expected', t => {
-  const mockConfig = getFontConfig(false);
+const atomicConfig = getFontConfig(false);
+testFontLoader(atomicConfig, testAtomicFontFace);
+const styledConfig = getFontConfig(true);
+testFontLoader(styledConfig, testStyledFontFace);
 
-  const app = new App('content', el => el);
-  app.middleware(async (ctx, next) => {
-    await next();
-    t.true(ctx.template.head.length > 0, 'head was modified by plugin');
+function testFontLoader(config, styleHeaderTest) {
+  tape('plugin - middleware adds atomic font faces', t => {
+    const app = new App('content', el => el);
+    app.middleware(async (ctx, next) => {
+      await next();
+      const headerElement = ctx.template.head.reduce(
+        (result, e) => ((result += consumeSanitizedHTML(e)), result),
+        ''
+      );
+      styleHeaderTest(t, headerElement);
+    });
+    app.register(FontLoaderReactToken, FontLoaderReactPlugin);
+    app.register(FontLoaderReactConfigToken, config);
+    app.middleware((ctx, next) => {
+      ctx.body = {
+        head: [],
+      };
+      return next();
+    });
+    getSimulator(app).render('/');
+    t.end();
   });
-  app.register(FontLoaderReactToken, FontLoaderReactPlugin);
-  app.register(FontLoaderReactConfigToken, mockConfig);
-  app.middleware((ctx, next) => {
-    ctx.body = {
-      head: [],
-    };
-    return next();
-  });
+}
 
-  getSimulator(app).render('/');
+function testAtomicFontFace(t, headerElement) {
+  equalWithoutSpaces(
+    t,
+    headerElement,
+    `<style>${expectedAtomicFontFaces}</style>`,
+    'atomic font face added by plugin'
+  );
+}
 
-  t.end();
-});
+function testStyledFontFace(t, headerElement) {
+  equalWithoutSpaces(
+    t,
+    headerElement,
+    `<style>${expectedStyledFontFaces}</style>`,
+    'atomic font face added by plugin'
+  );
+}
+
+function equalWithoutSpaces(t, str1, str2) {
+  t.equal(str1.replace(/\s/g, ''), str2.replace(/\s/g, ''));
+}

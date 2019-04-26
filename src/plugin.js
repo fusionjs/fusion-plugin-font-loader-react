@@ -33,7 +33,9 @@ const plugin = createPlugin({
   },
   middleware: ({config}) => {
     const {fonts, preloadDepth, withStyleOverloads} = config;
-    const fallbackLookup = generateFallbackMap(fonts, preloadDepth || 0);
+    const atomicFonts: AtomicFontsObjectType = (fonts: any);
+    const styledFonts: StyledFontsObjectType = (fonts: any);
+    const fallbackLookup = generateFallbackMap(atomicFonts, preloadDepth || 0);
     const preloadSession = new PreloadSession(fallbackLookup);
 
     return (ctx, next) => {
@@ -49,12 +51,10 @@ const plugin = createPlugin({
           if (__NODE__) {
             ctx.template.head.push(html`<style>`);
             if (withStyleOverloads) {
-              const styledFonts: StyledFontsObjectType = (fonts: any);
               ctx.template.head.push(
                 dangerouslySetHTML(generateStyledFontFaces(styledFonts))
               );
             } else {
-              const atomicFonts: AtomicFontsObjectType = (fonts: any);
               ctx.template.head.push(
                 dangerouslySetHTML(generateAtomicFontFaces(atomicFonts))
               );
@@ -63,7 +63,10 @@ const plugin = createPlugin({
             if (!withStyleOverloads) {
               ctx.template.head.push(
                 dangerouslySetHTML(
-                  generatePreloadLinks(preloadSession.fontsToPreload, fonts)
+                  generatePreloadLinks(
+                    preloadSession.fontsToPreload,
+                    atomicFonts
+                  )
                 )
               );
             }
