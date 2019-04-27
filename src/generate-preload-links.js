@@ -27,6 +27,5 @@ export default function generatePreloadLinks(
       );
     }
   });
-  console.log('[*]', links.join('\n'));
   return links.join('\n');
 }

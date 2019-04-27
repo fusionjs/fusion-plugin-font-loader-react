@@ -43,7 +43,7 @@ tape('generateFallbackMap with atomic config', t => {
 
 tape('generateAtomicFontFaces', t => {
   const atomicFonts: AtomicFontsObjectType = (getFontConfig(false).fonts: any);
-  equalWithoutSpaces(
+  equalTrimMultiSpace(
     t,
     generateAtomicFontFaces(atomicFonts),
     expectedAtomicFontFaces
@@ -53,7 +53,7 @@ tape('generateAtomicFontFaces', t => {
 
 tape('generateStyledFontFaces', t => {
   const styledFonts: StyledFontsObjectType = (getFontConfig(true).fonts: any);
-  equalWithoutSpaces(
+  equalTrimMultiSpace(
     t,
     generateStyledFontFaces(styledFonts),
     expectedStyledFontFaces
@@ -70,6 +70,6 @@ tape('generatePreloadLinks', t => {
   t.end();
 });
 
-function equalWithoutSpaces(t, str1, str2) {
-  t.equal(str1.replace(/\s/g, ''), str2.replace(/\s/g, ''));
+function equalTrimMultiSpace(t, str1, str2) {
+  t.equal(str1.replace(/[\s\s+|\n]/g, ' '), str2.replace(/[\s\s+|\n]/g, ' '));
 }

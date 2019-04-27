@@ -14,7 +14,7 @@ import {
   createPlugin,
   html,
   dangerouslySetHTML,
-  // consumeSanitizedHTML,
+  consumeSanitizedHTML,
 } from 'fusion-core';
 import FontProvider from './provider';
 import PreloadSession from './preload-session';
@@ -41,6 +41,7 @@ const plugin = createPlugin({
     const styledFonts: StyledFontsObjectType = (fonts: any);
     const fallbackLookup = generateFallbackMap(atomicFonts, preloadDepth || 0);
     const preloadSession = new PreloadSession(fallbackLookup);
+    // const preloadSession = {fontsToPreload: {'Lato-Regular': true}}; // new PreloadSession(fallbackLookup);
 
     return (ctx, next) => {
       if (ctx.element) {
@@ -64,7 +65,6 @@ const plugin = createPlugin({
               );
             }
             ctx.template.head.push(html`</style>`);
-            console.log('[1]', ctx.template.head.length);
             if (!withStyleOverloads) {
               ctx.template.head.push(
                 dangerouslySetHTML(
@@ -75,20 +75,10 @@ const plugin = createPlugin({
                 )
               );
             }
-            if (ctx.template.head.length == 4) {
-              console.log(
-                '[2]'
-                // generatePreloadLinks(preloadSession.fontsToPreload, atomicFonts)
-              );
-            }
-            // console.log(
-            //   '§§§§§',
-            //   // ctx.template.head.reduce(
-            //   //   (r, e) => ((r += consumeSanitizedHTML(e)), r),
-            //   //   ''
-            //   // )
-            //   ctx.template.head.map(e => consumeSanitizedHTML(e)).join('/n')
-            // );
+            console.log(
+              '§§§§§',
+              ctx.template.head.map(e => consumeSanitizedHTML(e)).join('/n')
+            );
           }
         });
       } else {
