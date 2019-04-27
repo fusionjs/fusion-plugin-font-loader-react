@@ -57,7 +57,7 @@ function testFontLoader(config, styleHeaderTest) {
 }
 
 function testAtomicFontFace(t, headerElement) {
-  equalTrimMultiSpace(
+  equalWithoutSpaces(
     t,
     headerElement,
     `<style>${expectedAtomicFontFaces}</style>`,
@@ -66,7 +66,7 @@ function testAtomicFontFace(t, headerElement) {
 }
 
 function testStyledFontFace(t, headerElement) {
-  equalTrimMultiSpace(
+  equalWithoutSpaces(
     t,
     headerElement,
     `<style>${expectedStyledFontFaces}</style>`,
@@ -74,6 +74,6 @@ function testStyledFontFace(t, headerElement) {
   );
 }
 
-function equalTrimMultiSpace(t, str1, str2) {
-  t.equal(str1.replace(/[\s\s+|\n]/g, ' '), str2.replace(/[\s\s+|\n]/g, ' '));
+function equalWithoutSpaces(t, str1, str2) {
+  t.equal(str1.replace(/\s/g, ''), str2.replace(/\s/g, ''));
 }
