@@ -10,8 +10,12 @@
 
 import React from 'react';
 
-import {createPlugin, html, dangerouslySetHTML} from 'fusion-core';
-
+import {
+  createPlugin,
+  html,
+  dangerouslySetHTML,
+  // consumeSanitizedHTML,
+} from 'fusion-core';
 import FontProvider from './provider';
 import PreloadSession from './preload-session';
 import generateFallbackMap from './generate-fallback-map';
@@ -60,6 +64,7 @@ const plugin = createPlugin({
               );
             }
             ctx.template.head.push(html`</style>`);
+            console.log('[1]', ctx.template.head.length);
             if (!withStyleOverloads) {
               ctx.template.head.push(
                 dangerouslySetHTML(
@@ -70,6 +75,20 @@ const plugin = createPlugin({
                 )
               );
             }
+            if (ctx.template.head.length == 4) {
+              console.log(
+                '[2]'
+                // generatePreloadLinks(preloadSession.fontsToPreload, atomicFonts)
+              );
+            }
+            // console.log(
+            //   '§§§§§',
+            //   // ctx.template.head.reduce(
+            //   //   (r, e) => ((r += consumeSanitizedHTML(e)), r),
+            //   //   ''
+            //   // )
+            //   ctx.template.head.map(e => consumeSanitizedHTML(e)).join('/n')
+            // );
           }
         });
       } else {

@@ -38,11 +38,10 @@ function testFontLoader(config, styleHeaderTest) {
     const app = new App('content', el => el);
     app.middleware(async (ctx, next) => {
       await next();
-      const headerElement = ctx.template.head.reduce(
-        (result, e) => ((result += consumeSanitizedHTML(e)), result),
-        ''
+      styleHeaderTest(
+        t,
+        ctx.template.head.map(e => consumeSanitizedHTML(e)).join('')
       );
-      styleHeaderTest(t, headerElement);
     });
     app.register(FontLoaderReactToken, FontLoaderReactPlugin);
     app.register(FontLoaderReactConfigToken, config);
