@@ -14,7 +14,6 @@ import {
   createPlugin,
   html,
   dangerouslySetHTML,
-  consumeSanitizedHTML,
 } from 'fusion-core';
 import FontProvider from './provider';
 import PreloadSession from './preload-session';
@@ -65,6 +64,7 @@ const plugin = createPlugin({
             }
             ctx.template.head.push(html`</style>`);
             if (!withStyleOverloads) {
+              const atomicFonts: AtomicFontsObjectType = (fonts: any);
               ctx.template.head.push(
                 dangerouslySetHTML(
                   generatePreloadLinks(

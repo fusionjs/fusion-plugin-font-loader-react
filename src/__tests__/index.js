@@ -41,6 +41,23 @@ tape('generateFallbackMap with atomic config', t => {
   t.end();
 });
 
+// tape('generateFallbackMap with styled config', t => {
+//   const atomicFonts: AtomicFontsObjectType = (getFontConfig(true).fonts: any);
+//   t.deepEqual(
+//     generateFallbackMap(atomicFonts, 0),
+//     expectedFallbackLookup.depth0
+//   );
+//   t.deepEqual(
+//     generateFallbackMap(atomicFonts, 1),
+//     expectedFallbackLookup.depth1
+//   );
+//   t.deepEqual(
+//     generateFallbackMap(atomicFonts, 2),
+//     expectedFallbackLookup.depth2
+//   );
+//   t.end();
+// });
+
 tape('generateAtomicFontFaces', t => {
   const atomicFonts: AtomicFontsObjectType = (getFontConfig(false).fonts: any);
   equalWithoutSpaces(
