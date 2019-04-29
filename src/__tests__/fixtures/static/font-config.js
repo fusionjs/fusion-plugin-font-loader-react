@@ -11,11 +11,15 @@ import type {
   StyledFontsObjectType,
 } from '../../../types.js';
 
-export function getFontConfig(withStyleOverloads: boolean) {
+export function getFontConfig(
+  withStyleOverloads: boolean,
+  preloadOverrides: {}
+) {
   return {
     withStyleOverloads,
     preloadDepth: 0,
     fonts: withStyleOverloads ? styledFonts : atomicFonts,
+    preloadOverrides,
   };
 }
 

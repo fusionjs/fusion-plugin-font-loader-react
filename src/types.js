@@ -44,6 +44,7 @@ export type AtomicConfigType = {
   fonts: AtomicFontsObjectType,
   preloadDepth: number,
   withStyleOverloads?: boolean,
+  preloadOverrides?: {}, // intended for testing only
 };
 
 export type ConfigTokenType = Token<ConfigType>;

@@ -14,8 +14,8 @@ type FallbackLookup = {
 };
 
 class PreloadSession {
-  // fontsToPreload: {[string]: boolean};
-  // fallbackLookup: FallbackLookup;
+  fontsToPreload: {[string]: boolean};
+  fallbackLookup: FallbackLookup;
 
   constructor(fallbackLookup: FallbackLookup) {
     // keys are the actual fonts to preload (based on usage on the page), values are always true

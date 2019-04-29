@@ -20,6 +20,7 @@ import {FontLoaderReactToken, FontLoaderReactConfigToken} from '../tokens';
 import {
   atomicFontFaces as expectedAtomicFontFaces,
   styledFontFaces as expectedStyledFontFaces,
+  preloadLinks as expectedPreloadLinks,
 } from './fixtures/expected';
 
 tape('exported as expected', t => {
@@ -28,13 +29,13 @@ tape('exported as expected', t => {
   t.end();
 });
 
-const atomicConfig = getFontConfig(false);
-testFontLoader(atomicConfig, testAtomicFontFace);
+const atomicConfig = getFontConfig(false, {'Lato-Regular': true});
+testFontLoader(atomicConfig, testAtomicFontLoad, 'atomic');
 const styledConfig = getFontConfig(true);
-testFontLoader(styledConfig, testStyledFontFace);
+testFontLoader(styledConfig, testStyledFontLoad, 'styled');
 
-function testFontLoader(config, styleHeaderTest) {
-  tape('plugin - middleware adds atomic font faces', t => {
+function testFontLoader(config, styleHeaderTest, type) {
+  tape(`plugin - middleware adds ${type} font faces`, t => {
     const app = new App('content', el => el);
     app.middleware(async (ctx, next) => {
       await next();
@@ -56,16 +57,16 @@ function testFontLoader(config, styleHeaderTest) {
   });
 }
 
-function testAtomicFontFace(t, headerElement) {
+function testAtomicFontLoad(t, headerElement) {
   equalWithoutSpaces(
     t,
     headerElement,
-    `<style>${expectedAtomicFontFaces}</style>`,
+    `<style>${expectedAtomicFontFaces}</style>${expectedPreloadLinks}`,
     'atomic font face added by plugin'
   );
 }
 
-function testStyledFontFace(t, headerElement) {
+function testStyledFontLoad(t, headerElement) {
   equalWithoutSpaces(
     t,
     headerElement,

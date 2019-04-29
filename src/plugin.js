@@ -36,12 +36,11 @@ const plugin = createPlugin({
     config: ConfigToken,
   },
   middleware: ({config}) => {
-    const {fonts, preloadDepth, withStyleOverloads} = config;
+    const {fonts, preloadDepth, withStyleOverloads, preloadOverrides} = config;
     const atomicFonts: AtomicFontsObjectType = (fonts: any);
     const styledFonts: StyledFontsObjectType = (fonts: any);
     const fallbackLookup = generateFallbackMap(atomicFonts, preloadDepth || 0);
     const preloadSession = new PreloadSession(fallbackLookup);
-    // const preloadSession = {fontsToPreload: {'Lato-Regular': true}}; // new PreloadSession(fallbackLookup);
 
     return (ctx, next) => {
       if (ctx.element) {
@@ -69,16 +68,12 @@ const plugin = createPlugin({
               ctx.template.head.push(
                 dangerouslySetHTML(
                   generatePreloadLinks(
-                    preloadSession.fontsToPreload,
+                    preloadOverrides || preloadSession.fontsToPreload,
                     atomicFonts
                   )
                 )
               );
             }
-            console.log(
-              '§§§§§',
-              ctx.template.head.map(e => consumeSanitizedHTML(e)).join('/n')
-            );
           }
         });
       } else {
