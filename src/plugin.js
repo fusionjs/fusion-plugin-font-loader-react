@@ -10,11 +10,7 @@
 
 import React from 'react';
 
-import {
-  createPlugin,
-  html,
-  dangerouslySetHTML,
-} from 'fusion-core';
+import {createPlugin, html, dangerouslySetHTML} from 'fusion-core';
 import FontProvider from './provider';
 import PreloadSession from './preload-session';
 import generateFallbackMap from './generate-fallback-map';

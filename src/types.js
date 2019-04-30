@@ -9,7 +9,7 @@
 import type {FusionPlugin, Token} from 'fusion-core';
 
 type FontURLsType = {
-  woff: string,
+  woff?: string,
   woff2: string,
 };
 
@@ -38,6 +38,7 @@ export type ConfigType = {
   fonts: AtomicFontsObjectType | StyledFontsObjectType,
   preloadDepth?: number,
   withStyleOverloads?: boolean,
+  preloadOverrides?: {},
 };
 
 export type AtomicConfigType = {

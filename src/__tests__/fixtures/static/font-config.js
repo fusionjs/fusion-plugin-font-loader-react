@@ -13,7 +13,7 @@ import type {
 
 export function getFontConfig(
   withStyleOverloads: boolean,
-  preloadOverrides: {}
+  preloadOverrides?: {}
 ) {
   return {
     withStyleOverloads,

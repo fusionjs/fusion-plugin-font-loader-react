@@ -160,7 +160,7 @@ type ConfigType = {
   withStyleOverloads: boolean, // set to true for styled mode
   fonts: {
     [string]: Array<{
-      urls:   {woff: string, woff2: string},
+      urls:   {woff?: string, woff2: string},
       styles?: {},
     }>
   },
@@ -266,7 +266,7 @@ type ConfigType = {
   withStyleOverloads?: boolean, // default false
   fonts: {
     [string]: {
-      urls:   {woff: string, woff2: string},
+      urls:   {woff?: string, woff2: string},
       fallback?: {
         name: string,
         styles?: {
