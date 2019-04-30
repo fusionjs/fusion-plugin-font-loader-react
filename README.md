@@ -157,13 +157,13 @@ To use this plugin in Styled Mode your config object should have `withStyleOverl
 
 ```ts
 type ConfigType = {
+  withStyleOverloads: boolean, // set to true for styled mode
   fonts: {
     [string]: Array<{
       urls:   {woff: string, woff2: string},
       styles?: {},
     }>
   },
-  withStyleOverloads: boolean,
 };
 ```
 
@@ -171,13 +171,11 @@ type ConfigType = {
 
 # Performance Mode
 
-By default fonts are lazily loaded. For users on slower networks a lazily loaded font is likely to result in signficant FOUT (flash of unstyled content) or FOIT (flash of invisible content). Prloading fonts will prevent this but will also compete with the bandwith of other critical resources (e.g. core JavaScript bundles).
+By default fonts are lazily loaded. For users on slower networks a lazily loaded font is likely to result in signficant FOUT (flash of unstyled content) or FOIT (flash of invisible content). Preloading all fonts will prevent FOUT and FOIT, but will also compete with the bandwith of other critical resources (e.g. core JavaScript bundles).
 
-This plugin makes it easy to implement [FOFT (flash of faux text)](https://www.zachleat.com/web/foft/) as a font loading strategy. With FOFT, you preload only unstyled fonts while continuing to lazy load styled fonts (bold, italic etc. variants). This takes advantage of browsers' ability to synthesize styled variants (FOFT)of fonts when the unstyled font is already loaded and reduces visual jarring and browser reflow.
+This plugin makes it easy to implement [FOFT (flash of faux text)](https://www.zachleat.com/web/foft/) as a font loading strategy. With FOFT, you preload only unstyled fonts while continuing to lazy load styled fonts (bold, italic etc. variants). This takes advantage of browsers' ability to synthesize styled font variants (FOFT) when the unstyled font is already loaded, and reduces visual jarring and browser reflow.
 
-For example, if you're using the `Lato` font family, you can defer loading of `Lato-Bold` since the browser can synthesize faux styles for bold and italics for any font by using a generic algorithm. However, the faux font synthesis algorithm isn't perfect. Font design is an art, which means that there are artistic and ergonomic differences between a synthesized bold style and a hand-crafted font such as `Lato-Bold`. Ideally we want to use `Lato-Bold` instead of a synthesized bold, but it's acceptable to temporarily show a synthesized bold while waiting for the true `Lato-Bold` font to be downloaded and switching over when the download is done. The (less desirable) alternative would be to either block `DOMContentLoaded` while all `Lato` variations are downloaded, or asynchronously downloading the entire font family, causing a long period of FOUT/FOIT.
-
-You can tune the balance between performance and user experience by varying the `preloadDepth` configuration value, which lets you specify how many levels of fonts to preload and how many to load asynchronously.
+For example, if you're using the `Lato` font family, you can preload `Lato-Regular` and defer loading of `Lato-Bold` since the browser can synthesize faux styles for bold and italic versions of available fonts. However, the faux font synthesis algorithm isn't perfect. Font design is an art, which means that there are artistic and ergonomic differences between a synthesized bold style and a hand-crafted font such as `Lato-Bold`. Ideally we want to use `Lato-Bold` instead of a synthesized bold, but it's acceptable to temporarily show a synthesized bold while waiting for the true `Lato-Bold` font to be downloaded and switching over when the download is done. The (less desirable) alternative would be to either block `DOMContentLoaded` while all `Lato` variations are downloaded, or asynchronously downloading the entire font family, causing a long period of FOUT/FOIT.
 
 ## Performance Mode Config
 
@@ -241,10 +239,31 @@ The generated @font-face for this config should look like this:
 }
 ```
 
+### `fallback` property
+
+The `fallback` property identifies a) the name of the fallback font to use b) the styles to apply to the font while waiting for the true font to load in order to simulate the true font.
+
+### `preload` property
+
+You can tune the balance between performance and user experience by varying the `preloadDepth` configuration value, which lets you specify how many levels of fonts to preload and how many to load asynchronously.
+
+`preloadDepth = 0`: Every font is preloaded, there are no fallback fonts. There is no FOFT or FOUT but there may be some FOIT
+Use this when jank-free font loading is more important than page load performance.
+
+`preloadDepth = 1`: Preload roman (non-stylized, e.g. `Lato`) fonts. Stylized fonts (e.g. `Lato-Bold`) will be lazily loaded and will fallback to preloaded font. During fallback period the browser will apply the appropriate style to the roman font which will display a good approximation of the stylized font (FOFT) which is less jarring than falling back to a system font.
+Use this when you want to balance performance with font-loading smoothness
+
+`preloadDepth = 2`: Don't preload any fonts. Lazily load all fonts. Lazily loading fonts will immediately fallback to the system font (FOUT).
+
+Use this when page load performance is more important than font-load smoothness
+
+
 ## Performance Mode Config Type
 
 ```ts
 type ConfigType = {
+  preloadDepth?: number, // default 0
+  withStyleOverloads?: boolean, // default false
   fonts: {
     [string]: {
       urls:   {woff: string, woff2: string},
@@ -256,8 +275,6 @@ type ConfigType = {
       },
     }
   },
-  preloadDepth?: number, // default 0
-  withStyleOverloads?: boolean, // default false
 };
 ```
 
@@ -319,18 +336,3 @@ When the true font is loaded the font loader removes font styles and switches th
 }
 ```
 
-### fallback property
-
-The `fallback` property identifies a) the name of the fallback font to use b) the styles to apply to the font while waiting for the true font to load in order to simulate the true font.
-
-### preloadDepth
-
-`preloadDepth = 0`: Every font is preloaded, there are no fallback fonts. There is no FOFT or FOUT but there may be some FOIT
-Use this when jank-free font loading is more important than page load performance.
-
-`preloadDepth = 1`: Preload roman (non-stylized, e.g. `Lato`) fonts. Stylized fonts (e.g. `Lato-Bold`) will be lazily loaded and will fallback to preloaded font. During fallback period the browser will apply the appropriate style to the roman font which will display a good approximation of the stylized font (FOFT) which is less jarring than falling back to a system font.
-Use this when you want to balance performance with font-loading smoothness
-
-`preloadDepth = 2`: Don't preload any fonts. Lazily load all fonts. Lazily loading fonts will immediately fallback to the system font (FOUT).
-
-Use this when page load performance is more important than font-load smoothness
